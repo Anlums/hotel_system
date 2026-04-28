@@ -1,0 +1,77 @@
+
+### 测试动态模糊查询通过姓名查询
+GET http://localhost:8080/api/bookings/findByName?name=A
+### 场景1：只按名字搜
+GET http://localhost:8080/api/bookings/findByCondition?guestName=c
+
+### 场景2：只按房间搜
+GET http://localhost:8080/api/bookings/findByCondition?roomNumber=101
+
+### 场景3：组合搜（搜 101 房间里姓张的客人）
+GET http://localhost:8080/api/bookings/findByCondition?guestName=An&roomNumber=101
+
+### 场景4：什么都不传（查询所有订单）
+GET http://localhost:8080/api/bookings/findByCondition
+
+### 测试placeOrder
+POST http://localhost:8080/api/bookings/placeOrder
+Content-Type: application/json
+
+{
+  "roomNumber": 106,
+  "guestName": "ddd",
+  "phone": "123456789",
+  "checkInDate": "2026-04-26T14:00:00",
+  "checkOutDate": "2026-05-03T12:00:00",
+  "totalAmount": 0,
+  "status": 1
+}
+### 测试退房
+PUT http://localhost:8080/api/bookings/checkOut?id=2
+
+### 测试预订列表查询
+GET http://localhost:8080/api/bookings/list
+
+### 测试插入预订记录
+POST http://localhost:8080/api/bookings/save
+Content-Type: application/json
+
+{
+  "roomNumber": 103,
+  "guestName": "ddd",
+  "phone": "123456789",
+  "checkInDate": "2026-04-26T14:00:00",
+  "checkOutDate": "2026-05-03T12:00:00",
+  "totalAmount": 0,
+  "status": 1
+}
+
+### 测试删除预订记录
+DELETE http://localhost:8080/api/bookings/delete?id=4
+
+### 测试修改预订记录
+PUT http://localhost:8080/api/bookings/update
+Content-Type: application/json
+
+{
+  "id": 2,
+  "guestName": "Anlums",
+  "phone": "123456789",
+  "checkInDate": "2026-05-01T14:00:00",
+  "checkOutDate": "2026-05-03T12:00:00",
+  "status": 2
+}
+
+### 测试查询所有空闲房间
+GET http://localhost:8080/api/rooms/availableRooms
+
+### 测试新增房间
+POST http://localhost:8080/api/rooms/insertRoom
+Content-Type: application/json
+
+{
+    "roomNumber" : "105",
+    "type" : "总统套房",
+    "price" : 600,
+    "status" : "0"
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.hotel_system.mapper.BookingMapper">
+<!--    <sql> 和 <include> —— SQL 片段重用-->
+<!--    如果你发现很多地方都要写 SELECT id, guest_name, room_id...，可以把它提取出来。-->
+<!--    <sql id="Base_Column_List">id, guest_name, room_id, status</sql>-->
+<!--    <select id="findAll" resultType="org.example.hotel_system.entity.Booking">-->
+<!--        SELECT <include refid="Base_Column_List"/> FROM bookings-->
+<!--    </select>-->
+    <update id="checkOut">
+        update bookings
+        <set>
+            status = 3,
+            check_out_date = #{checkOutDate},
+            total_amount = #{totalAmount}
+        </set>
+        where id = #{bookingId}
+    </update>
+    <insert id="insert">
+        INSERT INTO bookings (room_number, guest_name, phone, check_in_date, check_out_date, total_amount)
+        VALUES ( #{roomNumber}, #{guestName}, #{phone}, #{checkInDate}, #{checkOutDate}, #{totalAmount})
+    </insert>
+    <delete id="delete">
+        DELETE FROM bookings WHERE id=#{id}
+    </delete>
+<!--    注意： 只有 <select> 查询语句需要设置 resultType 或 resultMap，-->
+<!--    而 <insert>、<update>、<delete> 都默认返回 int 类型的受影响行数。-->
+    <select id="findByCondition" resultType="org.example.hotel_system.entity.Booking">
+        SELECT * FROM bookings
+        <where>
+            <if test="guestName != null and guestName != ''">
+                AND guest_name LIKE CONCAT('%', #{guestName}, '%')
+            </if>
+            <if test="roomNumber != null">
+                AND room_number = #{roomNumber}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+<!--    <set> —— 用于动态更新-->
+    <update id="update">
+        UPDATE bookings
+        <set>
+            <if test="guestName != null">guest_name = #{guestName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="checkInDate != null">check_in_date = #{checkInDate},</if>
+            <if test="checkOutDate != null">check_out_date = #{checkOutDate},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+<!-- <foreach> —— 用于批量操作-->
+<!-- 如果你想“一次性删除 10 个订单”或者“查询 ID 在 [1,2,3] 范围内的房间”，就需要它。-->
+    <select id = "findByIds" resultType = "org.example.hotel_system.entity.Booking">
+        SELECT * FROM bookings WHERE id IN
+        <foreach collection="ids" item = "id" open = "(" separator="," close = ")" >
+            #{id}
+        </foreach>
+    </select>
+<!--    <choose>, <when>, <otherwise> —— 类似 Java 的 switch-->
+<!--    如果你想实现“有 A 按 A 搜，没 A 按 B 搜，都没传就搜默认”的逻辑。-->
+    <select id="findByPriority" resultType="org.example.hotel_system.entity.Booking">
+        SELECT * FROM bookings WHERE
+        <choose>
+            <when test="guestName != null">guest_name = #{guestName}</when>
+            <when test="roomNumber != null">room_id = #{roomNumber}</when>
+            <otherwise>status = 1</otherwise>
+        </choose>
+    </select>
+
+
+</mapper>

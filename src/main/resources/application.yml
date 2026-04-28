@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: hotel_system
+  # 数据库连接配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # hotel_db 是刚才创建的数据库名，serverTimezone 建议设为 UTC 或 Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/hotel_system?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root     # 你的数据库用户名
+    password: 265942 # 你的数据库密码
+
+# MyBatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  # 搜索指定包别名，这样在 Mapper.xml 中可以直接写 Room 而不用写全路径
+  type-aliases-package: org.example.hotel_system.entity
+  configuration:
+    # 开启驼峰命名转换：数据库字段 room_number -> 实体类属性 roomNumber
+    map-underscore-to-camel-case: true
+    # 打印 SQL 日志，方便开发阶段调试
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 8080 # 项目运行端口
+
+logging:
+  level:
+    # 打印你的代码包下的所有日志（包含你打印的 error）
+    org.example.hotel_system: debug
+    # 打印 Spring 框架的异常处理逻辑
+    org.springframework.web: info
+    # 你之前的 MyBatis 打印 SQL 配置保留
