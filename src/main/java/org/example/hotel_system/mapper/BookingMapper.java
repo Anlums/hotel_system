@@ -3,6 +3,7 @@ package org.example.hotel_system.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.example.hotel_system.entity.Booking;
+import org.example.hotel_system.entity.DailyRevenue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -38,5 +39,10 @@ public interface BookingMapper {
     List<Booking> findAll();
 
     int checkOut(Long bookingId, LocalDateTime checkOutDate, BigDecimal totalAmount);
+
+    List<DailyRevenue> selectDailyRevenue(@Param("days") Integer days);
+
+
+
 
 }

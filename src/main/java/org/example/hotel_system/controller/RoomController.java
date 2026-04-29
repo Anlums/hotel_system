@@ -3,6 +3,7 @@ package org.example.hotel_system.controller;
 
 import org.example.hotel_system.common.Result;
 import org.example.hotel_system.entity.Room;
+import org.example.hotel_system.entity.RoomStatusCount;
 import org.example.hotel_system.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,10 @@ public class RoomController {
         if(c == 0) throw new RuntimeException("房间号为" + room.getRoomNumber() + "的房间已存在，新增房间失败");
         else return Result.success(room);
     }
-
+    @GetMapping("/statusCount")
+    public Result<RoomStatusCount> getRoomStatusCount() {
+        return Result.success(roomService.getRoomStatusCount());
+    }
 
 
 }

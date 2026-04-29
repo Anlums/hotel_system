@@ -1,6 +1,7 @@
 package org.example.hotel_system.service;
 
 import org.example.hotel_system.entity.Booking;
+import org.example.hotel_system.entity.DailyRevenue;
 import org.example.hotel_system.mapper.BookingMapper;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +27,7 @@ public interface BookingService {
     List<Booking> findByCondition(Booking  booking);
 
     int updateBookingStatus(Integer status, Long id);
+
+    List<DailyRevenue> getDailyRevenue(Integer days);
+
 }

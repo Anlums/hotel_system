@@ -1,6 +1,7 @@
 package org.example.hotel_system.service_impl;
 
 import org.example.hotel_system.entity.Booking;
+import org.example.hotel_system.entity.DailyRevenue;
 import org.example.hotel_system.entity.Room;
 import org.example.hotel_system.exception.RoomOccupiedException;
 import org.example.hotel_system.mapper.BookingMapper;
@@ -157,6 +158,10 @@ public class BookingServiceImpl implements BookingService {
         }
 
         return c;
+    }
+    @Override
+    public List<DailyRevenue> getDailyRevenue(Integer days) {
+        return bookingMapper.selectDailyRevenue(days);
     }
 
 }

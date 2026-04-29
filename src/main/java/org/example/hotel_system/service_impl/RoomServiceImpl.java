@@ -1,6 +1,7 @@
 package org.example.hotel_system.service_impl;
 
 import org.example.hotel_system.entity.Room;
+import org.example.hotel_system.entity.RoomStatusCount;
 import org.example.hotel_system.mapper.RoomMapper;
 import org.example.hotel_system.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +49,16 @@ public class RoomServiceImpl implements RoomService{
     public Room findByRoomNumber(Long roomNumber) {
         return roomMapper.findByRoomNumber(roomNumber);
     }
+
+    @Override
+    public RoomStatusCount getRoomStatusCount() {
+        RoomStatusCount count = new RoomStatusCount();
+        count.setAvailable(roomMapper.countAvailableRooms());
+        count.setBooked(roomMapper.countBookedRooms());
+        count.setOccupied(roomMapper.countOccupiedRooms());
+        return count;
+    }
+
+
+
 }

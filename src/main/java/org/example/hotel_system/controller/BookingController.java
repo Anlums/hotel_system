@@ -2,6 +2,7 @@ package org.example.hotel_system.controller;
 
 import org.example.hotel_system.common.Result;
 import org.example.hotel_system.entity.Booking;
+import org.example.hotel_system.entity.DailyRevenue;
 import org.example.hotel_system.mapper.BookingMapper;
 import org.example.hotel_system.service.BookingService;
 import org.example.hotel_system.service.RoomService;
@@ -181,5 +182,11 @@ public class BookingController {
         bookingService.updateBookingStatus(4, id);
         return Result.success("订单已取消");
     }
+    @GetMapping("/revenue")
+    public Result<List<DailyRevenue>> getRevenue(@RequestParam(defaultValue = "7") Integer days) {
+        return Result.success(bookingService.getDailyRevenue(days));
+    }
+
+
 
 }

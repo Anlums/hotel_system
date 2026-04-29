@@ -1,0 +1,41 @@
+src/
+├── components/
+│   ├── booking/                    # 订单管理相关组件
+│   │   ├── BookingSearchForm.vue   # 搜索表单组件
+│   │   ├── BookingTable.vue        # 订单表格组件
+│   │   └── BookingDialog.vue       # 新增/编辑对话框组件
+│   └── layout/                     # 布局组件（已有 MainLayout.vue）
+├── views/
+│   └── BookingManager.vue          # 订单管理主页面（整合所有子组件）
+├── layout/
+│   └── MainLayout.vue              # 整体布局（侧边栏+头部）
+└── App.vue                         # 只保留路由出口
+
+
+1. 浏览器打开网页
+   ↓
+2. main.js 初始化 Vue 应用
+   ↓
+3. 渲染 App.vue（显示左侧菜单 + 顶部栏）
+   ↓
+4. 加载 BookingManager 组件
+   ↓
+5. BookingManager 加载三个子组件
+   ↓
+6. onMounted 钩子触发，自动调用 fetchData()
+   ↓
+7. 发送请求到后端获取订单数据
+   ↓
+8. 数据显示在表格中
+   ↓
+9. 用户可以进行各种操作（搜索、新增、修改、删除...）
+
+💡 小白的学习建议
+先理解单个组件：打开一个 .vue 文件，看它的 template、script、style
+再看组件间通信：找 props 和 emit，理解数据怎么传递
+最后看整体流程：从 main.js → App.vue → 子组件，理解加载顺序
+
+
+
+
+

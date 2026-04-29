@@ -1,6 +1,7 @@
 package org.example.hotel_system.service;
 
 import org.example.hotel_system.entity.Room;
+import org.example.hotel_system.entity.RoomStatusCount;
 
 import java.lang.invoke.CallSite;
 import java.util.List;
@@ -12,4 +13,7 @@ public interface RoomService {
     int updateRoomStatus(Long roomNumber, Integer status);
     int insert(Room room);
     Room findByRoomNumber(Long roomNumber);
+    RoomStatusCount getRoomStatusCount();
+
+
 }

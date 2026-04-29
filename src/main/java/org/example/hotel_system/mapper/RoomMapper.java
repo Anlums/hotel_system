@@ -25,5 +25,14 @@ public interface RoomMapper {
     //@Insert("INSERT INTO rooms (room_number, type, price, status) VALUES (#{roomNumber}, #{type}, #{price}, #{status})")
     int insert(Room room) ;
 
+    @Select("SELECT COUNT(*) FROM rooms WHERE status = 0")
+    Integer countAvailableRooms();
+
+    @Select("SELECT COUNT(*) FROM rooms WHERE status = 1")
+    Integer countBookedRooms();
+
+    @Select("SELECT COUNT(*) FROM rooms WHERE status = 2")
+    Integer countOccupiedRooms();
+
 
 }

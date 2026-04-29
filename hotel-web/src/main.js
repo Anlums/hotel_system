@@ -1,3 +1,9 @@
+// main.js 的作用：
+// 创建 Vue 应用实例
+// 引入 Element Plus UI 库（提供漂亮的按钮、表格等组件）
+// 配置 axios（用于和后端通信）
+// 设置全局错误提示
+
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
