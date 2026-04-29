@@ -1,0 +1,49 @@
+/* 1. 彻底清除浏览器默认的间距（解决那 8px 的白边） */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    /* 核心：禁止浏览器最外层出现任何滚动条，保证页面像 App 一样固定 */
+    overflow: hidden;
+    /* 选用更现代的字体系统 */
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 2. 确保 Vue 的根挂载点占满全屏 */
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+/* 3. 统一全局链接和基础标签样式（可选） */
+a {
+    text-decoration: none;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 4. 自定义 Element Plus 的一些全局滚动条样式（让它更好看） */
+/* 针对 Chrome, Safari 等浏览器 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

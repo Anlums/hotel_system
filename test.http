@@ -75,3 +75,9 @@ Content-Type: application/json
     "price" : 600,
     "status" : "0"
 }
+
+### 测试入住房间
+PUT http://localhost:8080/api/bookings/checkIn?id=10
+
+### 测试取消订单
+PUT http://localhost:8080/api/bookings/cancel?id=11

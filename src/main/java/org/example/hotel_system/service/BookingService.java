@@ -13,7 +13,7 @@ public interface BookingService {
 
     int delete(Long id);
 
-    int update(Booking booking);
+    int updateBooking(Booking booking);
 
     List<Booking> findAll();
 
@@ -25,5 +25,5 @@ public interface BookingService {
 
     List<Booking> findByCondition(Booking  booking);
 
-
+    int updateBookingStatus(Integer status, Long id);
 }

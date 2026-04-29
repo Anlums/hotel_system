@@ -23,6 +23,6 @@ public class Booking {
     private LocalDateTime checkOutDate;
 
     private BigDecimal totalAmount;
-    private Integer status; // 订单状态: 1-已预约, 2-已入住, 3-已退房'
+    private Integer status; // 订单状态: 1-已预约, 2-已入住, 3-已退房，4-订单已取消'
     private LocalDateTime createTime;
 }

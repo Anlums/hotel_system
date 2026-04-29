@@ -22,12 +22,10 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
     @Autowired private BookingMapper bookingMapper;
     @Autowired private RoomMapper roomMapper;
-
     @Override
     public List<Booking> findByCondition(Booking booking) {
         return bookingMapper.findByCondition(booking);
     }
-
     @Override
     public List<Booking>  findByName(String name) {
         return bookingMapper.findByName(name);
@@ -37,7 +35,7 @@ public class BookingServiceImpl implements BookingService {
     public void checkOut(Long id) {
         Booking booking = bookingMapper.findById( id);
         if(booking == null) throw new RuntimeException("id为" + id + "的订单不存在");
-        
+
         if(booking.getStatus() == 4) throw new RuntimeException("id为" + id + "的订单已取消");
 
         Room room = roomMapper.findByRoomNumber(booking.getRoomNumber());
@@ -92,11 +90,33 @@ public class BookingServiceImpl implements BookingService {
     }
     @Override
     @Transactional
-    public int update(Booking booking) {
+    public int updateBooking(Booking booking) {
+        // 1. 获取数据库中的原始订单数据
+        Booking oldBooking = bookingMapper.findById(booking.getId());
+        if (oldBooking == null) {
+            throw new RuntimeException("该订单不存在");
+        }
+
+        // 2. 核心逻辑：判断是否更改了房间号
+        if (booking.getRoomNumber() != null && !booking.getRoomNumber().equals(oldBooking.getRoomNumber())) {
+
+            // A. 检查新房间是否可用（假设 0 为空闲）
+            Integer newRoomStatus = roomMapper.findByRoomNumber(booking.getRoomNumber()).getStatus();
+            if (newRoomStatus != null && newRoomStatus != 0) {
+                throw new RuntimeException("新房间 " + booking.getRoomNumber() + " 已被占用，无法换房");
+            }
+            // B. 释放旧房间（改为 0）
+            roomMapper.updateRoomStatus(oldBooking.getRoomNumber(), 0);
+            // C. 占用新房间（改为 1）
+            roomMapper.updateRoomStatus(booking.getRoomNumber(), 1);
+
+            // D. 手动同步新的房间号到 booking 对象，以便更新到数据库
+            // 虽然 XML 里没写 room_number，但建议你 XML 的 <set> 里最好加上 room_number 的更新
+        }
+        // 3. 调用你 XML 中写的 update 方法更新订单表
         int c = bookingMapper.update(booking);
 //        if(c == 0) System.out.println("修改订单失败，id为" + booking.getId() + "的订单不存在");
         return c;
-
     }
     @Override
     public List<Booking> findAll() {
@@ -111,4 +131,32 @@ public class BookingServiceImpl implements BookingService {
         bookingMapper.insert(booking);
         roomMapper.updateRoomStatus(booking.getRoomNumber(), 1);
     }
+
+    @Override
+    @Transactional
+    public int updateBookingStatus(Integer status, Long id) {
+        Booking booking = bookingMapper.findById(id);
+        if(booking == null) throw new RuntimeException("id为" + id + "的订单不存在");
+        booking.setStatus(status);
+        int c = bookingMapper.updateBookingStatus(status, id);
+        if(c == 0) throw new RuntimeException("更新订单状态失败，订单ID: " + id);
+
+        // 3. 房间状态联动逻辑
+        if(status == 1) {
+            // 预约入住 -> 确保房间状态为 1 (占用)
+            roomMapper.updateRoomStatus(booking.getRoomNumber(), 1);
+        } else if (status == 2) {
+            // 办理入住 -> 确保房间状态为 1 (占用)
+            roomMapper.updateRoomStatus(booking.getRoomNumber(), 1);
+        } else if (status == 3) {
+            // 退房 -> 释放房间为 0 (空闲)
+            roomMapper.updateRoomStatus(booking.getRoomNumber(), 0);
+        } else if (status == 4) {
+            // 取消订单 -> 释放房间为 0 (空闲)
+            roomMapper.updateRoomStatus(booking.getRoomNumber(), 0);
+        }
+
+        return c;
+    }
+
 }

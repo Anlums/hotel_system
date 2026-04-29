@@ -39,5 +39,4 @@ public interface BookingMapper {
 
     int checkOut(Long bookingId, LocalDateTime checkOutDate, BigDecimal totalAmount);
 
-
 }

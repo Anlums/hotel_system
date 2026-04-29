@@ -39,6 +39,12 @@
                 AND status = #{status}
             </if>
         </where>
+        ORDER BY
+        CASE
+        WHEN status IN (1, 2) THEN 0
+        ELSE 1
+        END ASC,
+        id ASC
     </select>
 <!--    <set> —— 用于动态更新-->
     <update id="update">
@@ -46,6 +52,7 @@
         <set>
             <if test="guestName != null">guest_name = #{guestName},</if>
             <if test="phone != null">phone = #{phone},</if>
+            <if test="roomNumber != null">room_number = #{roomNumber},</if>
             <if test="checkInDate != null">check_in_date = #{checkInDate},</if>
             <if test="checkOutDate != null">check_out_date = #{checkOutDate},</if>
             <if test="status != null">status = #{status},</if>
