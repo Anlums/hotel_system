@@ -37,6 +37,9 @@ public class BookingServiceImpl implements BookingService {
     public void checkOut(Long id) {
         Booking booking = bookingMapper.findById( id);
         if(booking == null) throw new RuntimeException("id为" + id + "的订单不存在");
+        
+        if(booking.getStatus() == 4) throw new RuntimeException("id为" + id + "的订单已取消");
+
         Room room = roomMapper.findByRoomNumber(booking.getRoomNumber());
         if(room == null) throw new RuntimeException("房间号为" + booking.getRoomNumber() + "的房间不存在");
         LocalDateTime checkInDate = booking.getCheckInDate();
