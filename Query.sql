@@ -45,6 +45,9 @@ ALTER TABLE bookings                    -- 修改 bookings 表
     ADD CONSTRAINT fk_bookings_room_number  -- 添加一个名为 fk_bookings_room_number 的约束
         FOREIGN KEY (room_number)               -- 将 room_number 字段设为外键
             REFERENCES rooms(room_number);          -- 引用 rooms 表的 room_number 字段
+UPDATE rooms
+SET type = '爱情房间'
+WHERE type = '亲情房间';
 
 
 # -- 修改字段名

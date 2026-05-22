@@ -6,5 +6,26 @@
         INSERT INTO rooms (room_number, type, price, status)
         VALUES (#{roomNumber}, #{type}, #{price}, #{status})
     </insert>
+    <select id="getRoomStatusCount" resultType="org.example.hotel_system.entity.RoomStatusCount">
+        SELECT
+                (SELECT COUNT(*) FROM rooms WHERE status = 0) AS available,
+                (SELECT COUNT(DISTINCT room_number) FROM bookings WHERE status = 1) AS booked,
+                (SELECT COUNT(DISTINCT room_number) FROM bookings WHERE status = 2) AS occupied
+    </select>
 
+    <update id="update" parameterType="org.example.hotel_system.entity.Room">
+        UPDATE room
+        <set>
+            <if test="roomNumber != null">room_number = #{roomNumber},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM rooms WHERE id = #{id}
+    </delete>
 </mapper>

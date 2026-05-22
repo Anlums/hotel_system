@@ -30,6 +30,7 @@
 
       <DataDashboard v-if="activeMenu === 'dashboard'" />
       <BookingManager v-else-if="activeMenu === 'bookings'" />
+      <RoomManager v-else-if="activeMenu === 'rooms'" />
       <div v-else style="padding: 40px; text-align: center; color: #909399;">
         <el-empty description="功能开发中..." />
       </div>
@@ -41,7 +42,7 @@
 import { ref, computed } from 'vue'
 import BookingManager from './views/BookingManager.vue'
 import DataDashboard from './views/DataDashboard.vue'
-
+import RoomManager from './views/RoomManager.vue'
 const activeMenu = ref('dashboard')
 
 const pageTitle = computed(() => {

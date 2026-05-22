@@ -30,3 +30,12 @@ logging:
     # 打印 Spring 框架的异常处理逻辑
     org.springframework.web: info
     # 你之前的 MyBatis 打印 SQL 配置保留
+# application.yml
+ai:
+  deepseek:
+    # 替换为你从官网获取的真实 API Key
+    api-key: sk-863b33db9f0d473899f050fda47c211f
+    # 建议同时把模型名称也配在这里，方便以后升级 V4 时直接修改 yml
+    model: deepseek-v4-pro
+    # 接口地址
+    base-url: https://api.deepseek.com/chat/completions

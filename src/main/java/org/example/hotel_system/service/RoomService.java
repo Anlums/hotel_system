@@ -14,6 +14,7 @@ public interface RoomService {
     int insert(Room room);
     Room findByRoomNumber(Long roomNumber);
     RoomStatusCount getRoomStatusCount();
-
+    int update(Room room);
+    int deleteById(Long id);
 
 }

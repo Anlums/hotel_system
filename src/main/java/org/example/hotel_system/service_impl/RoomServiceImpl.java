@@ -58,7 +58,15 @@ public class RoomServiceImpl implements RoomService{
         count.setOccupied(roomMapper.countOccupiedRooms());
         return count;
     }
+    @Override
+    public int update(Room room) {
+        return roomMapper.update(room);
+    }
 
+    @Override
+    public int deleteById(Long id) {
+        return roomMapper.deleteById(id);
+    }
 
 
 }

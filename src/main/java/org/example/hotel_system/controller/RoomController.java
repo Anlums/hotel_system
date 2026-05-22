@@ -40,5 +40,18 @@ public class RoomController {
         return Result.success(roomService.getRoomStatusCount());
     }
 
+    @PutMapping("/update")
+    public Result updateRoom(@RequestBody Room room) {
+        int result = roomService.updateRoomStatus(room.getRoomNumber(), room.getStatus());
+        if(result == 0) throw new RuntimeException("房间更新失败");
+        return Result.success(room);
+    }
+
+    @DeleteMapping("/delete")
+    public Result deleteRoom(@RequestParam Long id) {
+        int result = roomService.deleteById(id);
+        if(result == 0) throw new RuntimeException("房间删除失败");
+        return Result.success("房间删除成功");
+    }
 
 }

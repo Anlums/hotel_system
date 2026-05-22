@@ -41,8 +41,11 @@
         </where>
         ORDER BY
         CASE
-        WHEN status IN (1, 2) THEN 0
-        ELSE 1
+        WHEN status = 1 THEN 1
+        WHEN status = 2 THEN 2
+        WHEN status = 3 THEN 3
+        WHEN status = 4 THEN 4
+        ELSE 5
         END ASC,
         id ASC
     </select>

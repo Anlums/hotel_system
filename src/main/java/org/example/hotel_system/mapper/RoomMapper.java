@@ -5,11 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.example.hotel_system.entity.Room;
+import org.example.hotel_system.entity.RoomStatusCount;
+
 import java.util.List;
 
 @Mapper
 public interface RoomMapper {
-    @Select("SELECT * FROM rooms ")
+    @Select("SELECT * FROM rooms ORDER BY status ASC, room_number ASC")
     List<Room> findAll();
     @Select("SELECT * FROM rooms WHERE status = 0") // 只查询空闲房间
     List<Room> findAvailableRooms();
@@ -24,14 +26,16 @@ public interface RoomMapper {
     List<Room> findBookedRooms();
     //@Insert("INSERT INTO rooms (room_number, type, price, status) VALUES (#{roomNumber}, #{type}, #{price}, #{status})")
     int insert(Room room) ;
-
+    RoomStatusCount getRoomStatusCount();
+    int update(Room room);
+    int deleteById(Long id);
     @Select("SELECT COUNT(*) FROM rooms WHERE status = 0")
     Integer countAvailableRooms();
 
-    @Select("SELECT COUNT(*) FROM rooms WHERE status = 1")
+    @Select("SELECT COUNT(DISTINCT room_number) FROM bookings WHERE status = 1")
     Integer countBookedRooms();
 
-    @Select("SELECT COUNT(*) FROM rooms WHERE status = 2")
+    @Select("SELECT COUNT(DISTINCT room_number) FROM bookings WHERE status = 2")
     Integer countOccupiedRooms();
 
 

@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Git LFS ###
+ PNG files are tracked with Git LFS
+
+
